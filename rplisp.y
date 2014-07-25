@@ -1,44 +1,77 @@
 %{
+
+	#include <stdio.h>
+	#include <stdlib.h>	
+
 	extern int yylineno;
-	extern char* yytext[];
+	extern int yyleng;
+	extern char* yytext;
+
+	extern int yylex();
+
 	int noerror=1;
 
-	void push(double num);
-	void call(char id);
+	void push_int(int num);
+	void push_float(double num);
+	void call(char *id, int len);
 
-	int sp;
-	int bp;
-	double ustack[100];
-	double istack[100];
+	int usp=0;
+	int vsp=0;
+	double stack[100];
+	void yyerror (char const *s);
 	
 
 %}
 
 %union{
-	double num; char *id;	
+	double doub; char *id; int integer;	
 }
 
 %start program
 
-%token <num> number
+%token <doub> float_val
+%token <integer> int_val
 %token <id> identifier
-%type <num> open_chevron close_chevron program
+%token <integer> open_chevron close_chevron
+%type <integer> program number
 
 %%
 
 
 
-program : number program			{push($1);}
-     | identifier program			{call($1);}
+program : number program			{;}
+     | identifier program			{call($1,yyleng);}
      | sexp program				{;}
      | sexp					{;}
-     | number					{push($1);}
-     | identifier				{call($1);}
+     | identifier				{call($1,yyleng);}
+     | number					{;}
      ;
 
+number : float_val					{push_float($1);}
+       | int_val					{push_int($1);}
+	;
 sexp : open_chevron program close_chevron		{;}
 
 
 %%
+
+void push_float(double n){
+	printf("%f\n",n);
+	return;
+}
+void push_int(int n){
+	printf("%d\n",n);
+	return;
+}
+
+void call(char *id, int len){
+	printf("%s\n",id);
+	return;
+}
+
+void yyerror (char const *s){
+	fprintf(stderr, "Error: %s\n",s);
+}
+
 
 
