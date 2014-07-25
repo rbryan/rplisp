@@ -1,7 +1,8 @@
 %{
 
 	#include <stdio.h>
-	#include <stdlib.h>	
+	#include <stdlib.h>
+	#include "error.h"
 
 	extern int yylineno;
 	extern int yyleng;
@@ -15,10 +16,6 @@
 	void push_float(double num);
 	void call(char *id, int len);
 
-	int usp=0;
-	int vsp=0;
-	double stack[100];
-	void yyerror (char const *s);
 	
 
 %}
@@ -27,21 +24,26 @@
 	double doub; char *id; int integer;	
 }
 
-%start program
+%start sexp
+
+
 
 %token <doub> float_val
 %token <integer> int_val
 %token <id> identifier
 %token <integer> open_chevron close_chevron
-%type <integer> program number
+%type <integer> program number sexp
 
 %%
 
 
+sexp : open_chevron program close_chevron		{;}
+     | open_chevron close_chevron			{;}
+	;
 
-program : number program			{;}
-     | identifier program			{call($1,yyleng);}
-     | sexp program				{;}
+program : program number			{;}
+     | program identifier			{call($2,yyleng);}
+     | program sexp				{;}
      | sexp					{;}
      | identifier				{call($1,yyleng);}
      | number					{;}
@@ -50,7 +52,6 @@ program : number program			{;}
 number : float_val					{push_float($1);}
        | int_val					{push_int($1);}
 	;
-sexp : open_chevron program close_chevron		{;}
 
 
 %%
@@ -69,9 +70,6 @@ void call(char *id, int len){
 	return;
 }
 
-void yyerror (char const *s){
-	fprintf(stderr, "Error: %s\n",s);
-}
 
 
 
