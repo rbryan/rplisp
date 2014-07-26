@@ -1,5 +1,13 @@
 
+enum atom_type{
+	JUMP	=	1,
+	TERM	=	2,
+	INT 	=	4,
+	FLOAT	=	8,
+	STRING	=	16,
+	CALL	=	32
 
+};
 
 struct atom {
 	int type;
@@ -7,8 +15,8 @@ struct atom {
 		double float_t;
 		int integer_t;
 		char * string_t;
-		struct atom *reference_t;
-		void * pointer_t;
+		struct atom *jump_t;
+		void (*call_t)();
 	} data;
 };
 

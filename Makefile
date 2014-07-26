@@ -7,8 +7,8 @@ CFLAGS= -O0 -g -Wall
 
 COMP = $(CC) $(CFLAGS)
 
-rplisp: rplisp.o stack.o error.o lex.yy.o rplisp.tab.o Makefile
-	$(COMP) rplisp.o lex.yy.o rplisp.tab.o error.o -o rplisp
+rplisp: rplisp.o stack.o error.o atom.o core.o symbols.o lex.yy.o rplisp.tab.o Makefile
+	$(COMP) rplisp.o lex.yy.o rplisp.tab.o error.o atom.o core.o stack.o symbols.o -o rplisp
 
 rplisp.o: rplisp.c config.h
 	$(COMP) -c rplisp.c
@@ -33,6 +33,12 @@ error.o: error.c error.h
 
 atom.o: atom.c atom.h
 	$(COMP) -c atom.c
+
+core.o: core.c core.h
+	$(COMP) -c core.c
+
+symbols.o: symbols.c symbols.h
+	$(COMP) -c symbols.c
 
 clean: 
 	rm *.o lex.yy.c rplisp.tab.c rplisp.tab.h 

@@ -1,4 +1,4 @@
 
-extern void warning(const char *s);
-extern void error(const char *s);
-extern void yyerror(const char *s);
+void warning(const char *s);
+void error(const char *s);
+void yyerror(const char *s);

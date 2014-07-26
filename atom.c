@@ -8,8 +8,12 @@
 struct atom *new_atom(){
 	struct atom *new;
 	new = calloc(1,sizeof(struct atom));
+	
 	if(new == NULL)
 		error("Allocating Atom: Out of memory.");
+
 	return new;
+	
 }
+
 

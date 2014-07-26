@@ -1,3 +1,3 @@
 
 
-#define STACK_SIZE	100
+#define INIT_STACK_SIZE	100

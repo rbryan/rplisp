@@ -31,6 +31,7 @@
 %token <doub> float_val
 %token <integer> int_val
 %token <id> identifier
+%token <id> string
 %token <integer> open_chevron close_chevron
 %type <integer> program number sexp
 
@@ -44,9 +45,11 @@ sexp : open_chevron program close_chevron		{;}
 program : program number			{;}
      | program identifier			{call($2,yyleng);}
      | program sexp				{;}
+     | program string				{;}
      | sexp					{;}
      | identifier				{call($1,yyleng);}
      | number					{;}
+     | string					{call($1,yyleng);}
      ;
 
 number : float_val					{push_float($1);}
