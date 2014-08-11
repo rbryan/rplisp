@@ -1,17 +1,22 @@
+#ifndef _ATOM_H_
+#define _ATOM_H_
 
 enum atom_type{
-	JUMP	=	1,
-	TERM	=	2,
-	INT 	=	4,
-	FLOAT	=	8,
-	STRING	=	16,
-	CALL	=	32
+	JUMP	=	1, //Jump to another atom
+	TERM	=	2, //Terminal atom pushes its value to the stack.
+	INT 	=	4, //Integer type
+	FLOAT	=	8, //Float type (actually a double but we don't care.)
+	STRING	=	16, //String type
+	CALL	=	32 //Call to a function.
 
 };
 
 struct atom {
-	int type;
-	union atom_data {
+	int type; //atom_type enum
+
+	//Value stored by the atom. We want it to always fit
+	//in the native wordsize of the processor.
+	union atom_data { 
 		double float_t;
 		int integer_t;
 		char * string_t;
@@ -21,3 +26,5 @@ struct atom {
 };
 
 extern struct atom *new_atom();
+
+#endif

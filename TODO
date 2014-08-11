@@ -1,0 +1,23 @@
+
+
+
+
+*Implement a symbol table
+*Add interpreter hooks.
+*Test Test Test
+*Add basic functions!!!
+*Foreign function interface.
+*Standard libraries!!!
+*...
+*profit.
+
+
+
+
+
+In the future:
+
+-Dynamic sizing for stack and symbol table
+-Faster symbol table search. Perhaps a binary tree or hash table.
+	Should be kept separate from the original table structure
+	because the order on the table matters.
