@@ -32,8 +32,18 @@ void init_stack(unsigned int size){
 	
 }
 
-//Free the stack.
+//print the stack
+void print_stack(){
+	int i;
+	for(i=stack_size-1; &stack[i] != vsp; i--)
+		print_atom(stack[i]);
 
+	for(i=0; &stack[i] != usp; i++)
+		print_atom(stack[i]);
+
+}
+
+//Free the stack.
 void free_stack(){
 	int i;
 	for(i=stack_size-1; &stack[i] != vsp; i--)

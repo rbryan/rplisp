@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "symbols.h"
+#include "stack.h"
 #include "error.h"
 #include "config.h"
 
@@ -9,14 +10,14 @@ unsigned int symbol_table_size;
 struct symbol *symbol_table; 
 
 //Set up the symbol table.
-void init_symbol_table(){
+void init_symbol_table(unsigned int size){
 	
-	symbol_table = calloc(1,sizeof(struct symbol)*INIT_SYMBOL_TABLE_SIZE);
+	symbol_table = calloc(1,sizeof(struct symbol)*size);
 	
 	if(symbol_table == NULL)
 		error("Initializing symbol table: Out of memory.");
 
-	symbol_table_size = INIT_SYMBOL_TABLE_SIZE;
+	symbol_table_size = size;
 	
 	ssp = &symbol_table[0];
 

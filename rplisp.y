@@ -2,6 +2,8 @@
 
 	#include <stdio.h>
 	#include <stdlib.h>
+	#include "stack.h"
+	#include "atom.h"
 	#include "error.h"
 
 	extern int yylineno;
@@ -60,11 +62,32 @@ number : float_val					{push_float($1);}
 %%
 
 void push_float(double n){
-	printf("%f\n",n);
+	struct atom *new;
+	
+	printf("Pushing float:\t%f\n",n);
+	
+	new = new_atom();
+
+	new->type = FLOAT;
+	new->data.float_t = n;
+
+	v_push_atom(new);
+	
+	print_stack();
 	return;
 }
 void push_int(int n){
-	printf("%d\n",n);
+	struct atom *new;
+
+	printf("Pushing int:\t%d\n",n);
+
+	new = new_atom();
+
+	new->type = INT;
+	new->data.integer_t = n;
+
+	v_push_atom(new);
+	print_stack();
 	return;
 }
 

@@ -10,8 +10,9 @@ struct symbol {
 
 extern struct symbol *ssp;
 extern struct symbol *symbol_table;
+extern unsigned int symbol_table_size;
 
-void init_symbol_table();
+void init_symbol_table(unsigned int size);
 void free_symbol_table();
 void print_symbol_table();
 

@@ -2,12 +2,14 @@
 #define _ATOM_H_
 
 enum atom_type{
-	JUMP	=	1, //Jump to another atom
-	TERM	=	2, //Terminal atom pushes its value to the stack.
-	INT 	=	4, //Integer type
-	FLOAT	=	8, //Float type (actually a double but we don't care.)
-	STRING	=	16, //String type
-	CALL	=	32 //Call to a function.
+
+	START, //Start atom indicates beginning of expression.
+	TERM, //Terminal atom indicates end of expression.
+	JUMP, //Jump to another atom
+	INT, //Integer type
+	FLOAT, //Float type (actually a double but we don't care.)
+	STRING, //String type
+	CALL //Call to a function.
 
 };
 
@@ -25,6 +27,7 @@ struct atom {
 	} data;
 };
 
-extern struct atom *new_atom();
+struct atom *new_atom();
+void print_atom(struct atom *a);
 
 #endif
