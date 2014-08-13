@@ -1,8 +1,7 @@
 
 
 
-
-*Implement a symbol table
+*Terminating characters with Null backreferences are basically returns
 *Add interpreter hooks.
 *Test Test Test
 *Add basic functions!!!

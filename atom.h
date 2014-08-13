@@ -5,11 +5,14 @@ enum atom_type{
 
 	START, //Start atom indicates beginning of expression.
 	TERM, //Terminal atom indicates end of expression.
+	EXIT, //Exit the current expression.
 	JUMP, //Jump to another atom
 	INT, //Integer type
 	FLOAT, //Float type (actually a double but we don't care.)
 	STRING, //String type
-	CALL //Call to a function.
+	CALL, //Call to a function.
+	REF //Reference to a function.
+
 
 };
 
@@ -22,7 +25,7 @@ struct atom {
 		double float_t;
 		int integer_t;
 		char * string_t;
-		struct atom *jump_t;
+		struct atom **jump_t;
 		void (*call_t)();
 	} data;
 };

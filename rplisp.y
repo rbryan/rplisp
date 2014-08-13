@@ -16,6 +16,7 @@
 
 	void push_int(int num);
 	void push_float(double num);
+	void push_string(char * s);
 	void call(char *id, int len);
 
 	
@@ -47,11 +48,11 @@ sexp : open_chevron program close_chevron		{;}
 program : program number			{;}
      | program identifier			{call($2,yyleng);}
      | program sexp				{;}
-     | program string				{;}
+     | program string				{push_string($2);}
      | sexp					{;}
      | identifier				{call($1,yyleng);}
      | number					{;}
-     | string					{call($1,yyleng);}
+     | string					{push_string($1);}
      ;
 
 number : float_val					{push_float($1);}
@@ -60,6 +61,22 @@ number : float_val					{push_float($1);}
 
 
 %%
+
+void push_start(){
+	struct atom *new;
+	
+	printf("Pushing start\n");
+
+	new = new_atom();
+
+	new->type = START;
+	new->data.jump_t = NULL; //set when the corresponding end is pushed
+	
+	v_push_atom(new);
+
+	print_stack();
+	return;
+}
 
 void push_float(double n){
 	struct atom *new;
@@ -76,6 +93,7 @@ void push_float(double n){
 	print_stack();
 	return;
 }
+
 void push_int(int n){
 	struct atom *new;
 
@@ -85,6 +103,21 @@ void push_int(int n){
 
 	new->type = INT;
 	new->data.integer_t = n;
+
+	v_push_atom(new);
+	print_stack();
+	return;
+}
+
+void push_string(char * s){
+	struct atom *new;
+	
+	printf("Pushing string:\t%s\n",s);
+
+	new = new_atom();
+
+	new->type = STRING;
+	new->data.string_t = s;
 
 	v_push_atom(new);
 	print_stack();

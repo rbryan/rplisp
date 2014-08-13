@@ -21,13 +21,17 @@ void print_atom(struct atom *a){
 	printf("Type:\t");
 
 	switch(a->type){
+		
+		case START:	printf("START\n");
+				break;
+		
+		case TERM:	printf("TERM\n");
+				break;
+				
 		case JUMP:	printf("JUMP\n");
 				printf("Value:\t%ld\n", (long) a->data.jump_t);
 				break;
 
-		case TERM:	printf("TERM\n");
-				break;
-				
 		case INT:	printf("INT\n");
 				printf("Value:\t%d\n", a->data.integer_t);
 				break;
@@ -37,7 +41,7 @@ void print_atom(struct atom *a){
 				break;
 
 		case STRING:	printf("STRING\n");
-				printf("Value:\t%s\n", a->data.string_t);
+				printf("Value:\t\"%s\"\n", a->data.string_t);
 				break;
 
 		case CALL:	printf("CALL\n");
