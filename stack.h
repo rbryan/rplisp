@@ -14,5 +14,12 @@ struct atom *u_pop_atom();
 struct atom *v_pop_atom();
 void u_push_atom(struct atom *a);
 void v_push_atom(struct atom *a);
+void push_int(int num);
+void push_float(double num);
+void push_string(char * s);
+void push_term();
+void push_start();
+void call(char *id, int len);
+void connect_ends();
 
 #endif

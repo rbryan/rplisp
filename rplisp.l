@@ -9,8 +9,11 @@
 
 %%
 
-(\<\<)			{return open_chevron;}
 (>>)			{return close_chevron;}
+(<<)			{return open_chevron;}
+(\()			{return open_paren;}
+(\))			{return close_paren;}
+
 [+-]?[0-9]*(\.)[0-9]+	{sscanf(yytext,"%lf",&yylval.doub); return float_val;}
 [+-]?[0-9]+		{sscanf(yytext,"%d",&yylval.integer); return int_val;}
 [a-zA-Z_]+[a-zA-Z0-9_]*	{	
