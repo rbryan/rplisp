@@ -19,6 +19,8 @@ void push_float(double num);
 void push_string(char * s);
 void push_term();
 void push_start();
+void push_exit();
+void push_ref(struct atom **ref);
 void call(char *id, int len);
 void connect_ends();
 

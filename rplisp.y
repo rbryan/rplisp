@@ -15,7 +15,7 @@
 
 	int noerror=1;
 
-	void handle_terminal();
+	void handle_quote_start();
 
 	
 
@@ -42,7 +42,7 @@ sexp 	: group_open program group_close	{;}
       	| group_open group_close		{;}
 	;
 
-group_open: open_chevron			{push_start();}
+group_open: open_chevron			{handle_quote_start();}
 	| open_paren				{push_start();}
 	;
 
@@ -66,9 +66,14 @@ number	: int_val				{push_int($1);}
 
 %%
 
-void handle_terminal(){
-	printf("Terminal handled.\n");
-	push_term();
-	connect_ends();
+void handle_quote_start(){
+	push_start();
+	//We expect that the statement to be called will follow.
+	//vsp-1 should be the location following the ref.
+	//this location should hold an exit which will be eaten
+	//when execute is called.
+	push_ref(vsp - 1); 
+	push_exit();
 }
+
 

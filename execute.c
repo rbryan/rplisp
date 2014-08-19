@@ -40,8 +40,6 @@ struct atom ** execute(struct atom **sp){
 				break;
 			case START:
 				// Start executing the function recursively.
-				// --sp so that we don't get caught in a loop
-				// of start calls and have a stack overflow.
 				sp = execute(sp);	
 				break;
 			case EXIT:

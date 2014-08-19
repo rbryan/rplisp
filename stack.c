@@ -210,6 +210,37 @@ void push_string(char * s){
 	return;
 }
 
+void push_ref(struct atom **ref){
+	
+	struct atom * new;
+
+	printf("Pushing ref:\t%ld\n",(long) ref);
+
+	new = new_atom();
+
+	new->type = REF;
+	new->data.jump_t = ref;
+
+	v_push_atom(new);
+	print_stack();
+	return;
+}
+
+void push_exit(){
+	
+	struct atom * new;
+
+	printf("Pushing exit.\n");
+
+	new = new_atom();
+
+	new->type = EXIT;
+
+	v_push_atom(new);
+	print_stack();
+	return;
+}
+
 void call(char *id, int len){
 	printf("%s\n",id);
 	return;

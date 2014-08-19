@@ -47,6 +47,17 @@ void print_atom(struct atom *a){
 		case CALL:	printf("CALL\n");
 				printf("\tValue:\t%ld\n", (long) a->data.call_t);
 				break;
+
+		case REF:	printf("REF\n");
+				printf("\tValue:\t%ld\n", (long) a->data.jump_t);
+				break;
+
+		case EXIT:	printf("EXIT\n");
+				break;
+				
+
+		default:
+				error("Printing Stack: Unknonw atom type");
 	
 
 	}
