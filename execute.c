@@ -38,6 +38,9 @@ struct atom ** execute(struct atom **sp){
 			case REF:
 				u_push_atom(current);
 				break;
+			case IDENT:
+				u_push_atom(current);
+				break;
 			case START:
 				// Start executing the function recursively.
 				sp = execute(sp);	

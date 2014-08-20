@@ -26,8 +26,6 @@ void init_stack(unsigned int size){
 	usp = &stack[0];
 	vsp = &stack[size-1];
 
-	push_core_functions();
-
 	return;
 	
 }
@@ -103,33 +101,35 @@ struct atom *u_pop_atom(){
 
 void push_start(){
 	struct atom *new;
-	
+#ifdef DEBUG	
 	printf("Pushing start\n");
-
+#endif
 	new = new_atom();
 
 	new->type = START;
 	new->data.jump_t = NULL; //set when the corresponding term is pushed
 	
 	v_push_atom(new);
-
+#ifdef DEBUG
 	print_stack();
+#endif
 	return;
 }
 
 void push_term(){
 	struct atom *new;
-
+#ifdef DEBUG
 	printf("Pushing end\n");
-
+#endif
 	new = new_atom();
 	
 	new->type = TERM;
 	new->data.jump_t = NULL; //set later when start is found.
 
 	v_push_atom(new);
-
+#ifdef DEBUG
 	print_stack();
+#endif
 	return;
 }
 
@@ -166,88 +166,141 @@ void connect_ends(){
 
 void push_float(double n){
 	struct atom *new;
-	
+#ifdef DEBUG	
 	printf("Pushing float:\t%f\n",n);
-	
+#endif	
 	new = new_atom();
 
 	new->type = FLOAT;
 	new->data.float_t = n;
 
 	v_push_atom(new);
-	
+#ifdef DEBUG	
 	print_stack();
+#endif
 	return;
 }
 
 void push_int(int n){
 	struct atom *new;
-
+#ifdef DEBUG
 	printf("Pushing int:\t%d\n",n);
-
+#endif
 	new = new_atom();
 
 	new->type = INT;
 	new->data.integer_t = n;
 
 	v_push_atom(new);
+#ifdef DEBUG
 	print_stack();
+#endif
 	return;
 }
 
 void push_string(char * s){
 	struct atom *new;
-	
+#ifdef DEBUG	
 	printf("Pushing string:\t%s\n",s);
-
+#endif
 	new = new_atom();
 
 	new->type = STRING;
 	new->data.string_t = s;
 
 	v_push_atom(new);
+#ifdef DEBUG
 	print_stack();
+#endif
 	return;
 }
 
 void push_ref(struct atom **ref){
 	
 	struct atom * new;
-
+#ifdef DEBUG
 	printf("Pushing ref:\t%ld\n",(long) ref);
-
+#endif
 	new = new_atom();
 
 	new->type = REF;
 	new->data.jump_t = ref;
 
 	v_push_atom(new);
+#ifdef DEBUG
 	print_stack();
+#endif
 	return;
 }
 
 void push_exit(){
 	
 	struct atom * new;
-
+#ifdef DEBUG
 	printf("Pushing exit.\n");
-
+#endif
 	new = new_atom();
 
 	new->type = EXIT;
 
 	v_push_atom(new);
+#ifdef DEBUG
 	print_stack();
+#endif
 	return;
 }
 
-void call(char *id, int len){
-	printf("%s\n",id);
+void push_ident(char * id){
+	struct atom *new;
+#ifdef DEBUG
+	printf("Pushing ident:\t%s\n",id);
+#endif
+	new = new_atom();
+
+	new->type = IDENT;
+	new->data.string_t = id;
+
+	v_push_atom(new);
+#ifdef DEBUG
+	print_stack();
+#endif
 	return;
 }
 
 
+void push_jump(struct atom **j){
+	
+	struct atom * new;
+#ifdef DEBUG
+	printf("Pushing jump:\t%ld\n",(long) j);
+#endif
+	new = new_atom();
 
+	new->type = JUMP;
+	new->data.jump_t = j;
 
+	v_push_atom(new);
+#ifdef DEBUG
+	print_stack();
+#endif
+	return;
+}
 
+void push_call( void (*fn)()){
+
+	struct atom *new;
+#ifdef DEBUG
+	printf("Pushing call:\t%ld\n",(long) fn);
+#endif
+	new = new_atom();
+
+	new->type = CALL;
+	new->data.call_t = fn;
+
+	v_push_atom(new);
+#ifdef DEBUG
+	print_stack();
+#endif
+	return;
+}
 

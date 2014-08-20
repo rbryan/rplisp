@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "symbols.h"
 #include "stack.h"
 #include "error.h"
 #include "config.h"
+#include "execute.h"
 
 struct symbol *ssp; //Symbol stack pointer;
 unsigned int symbol_table_size;
@@ -19,13 +21,24 @@ void init_symbol_table(unsigned int size){
 
 	symbol_table_size = size;
 	
-	ssp = &symbol_table[0];
+	ssp = symbol_table;
 
 
 }
 
+struct symbol *search_symbol_table(char *ident){
+	struct symbol *i;
+	for(i=symbol_table; i < ssp; i++){
+		if(strcmp(ident,i->ident) == 0)
+			return i;
+	}
+	
+	return NULL;
+}
+
+
 //Push a symbol to the symbol table.
-void push_symbol(char *id, struct atom *loc){
+void push_symbol(const char *id, struct atom **loc){
 	ssp->ident = id;
 	ssp->sl = loc;
 
@@ -37,11 +50,11 @@ void push_symbol(char *id, struct atom *loc){
 }
 
 //Pop a symbol from the symbol table.
-void pop_symbol(){
+struct symbol * pop_symbol(){
 	if(ssp == symbol_table)
-		error("Popping symbol: Symbol table already empty.");
+		return NULL;
 	ssp--;
-	free(ssp->ident);
+	return ssp;
 	
 }
 
@@ -59,5 +72,10 @@ void print_symbol_table(){
 
 //Free the symbol table.
 void free_symbol_table(){
+	struct symbol *i;
+
+	for(i=ssp-1; i->sl < exec_entry_pt; i--)
+		free(i->ident);
+
 	free(symbol_table);
 }

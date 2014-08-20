@@ -54,6 +54,10 @@ void print_atom(struct atom *a){
 
 		case EXIT:	printf("EXIT\n");
 				break;
+
+		case IDENT:	printf("IDENT\n");
+				printf("\tValue:\t%s\n", a->data.string_t);
+				break;
 				
 
 		default:

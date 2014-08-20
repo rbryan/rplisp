@@ -21,7 +21,9 @@ void push_term();
 void push_start();
 void push_exit();
 void push_ref(struct atom **ref);
-void call(char *id, int len);
+void push_ident(char * id);
+void push_jump(struct atom **j);
+void push_call( void (*fn)());
 void connect_ends();
 
 #endif

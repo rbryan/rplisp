@@ -4,6 +4,7 @@
 	#include <stdlib.h>
 	#include "stack.h"
 	#include "atom.h"
+	#include "symbols.h"
 	
 	#include "error.h"
 
@@ -16,6 +17,7 @@
 	int noerror=1;
 
 	void handle_quote_start();
+	void handle_ident(char *id);
 
 	
 
@@ -51,11 +53,11 @@ group_close: close_chevron			{push_term();}
 	;
 
 program : program number			{;}
-	| program identifier			{call($2,yyleng);}
+	| program identifier			{handle_ident($2);}
 	| program sexp				{;}
 	| program string			{push_string($2);}
 	| sexp					{;}
-	| identifier				{call($1,yyleng);}
+	| identifier				{handle_ident($1);}
 	| number				{;}
 	| string				{push_string($1);}
 	;
@@ -76,4 +78,16 @@ void handle_quote_start(){
 	push_exit();
 }
 
+void handle_ident(char *id){
+	struct symbol *sym;
+	
+	sym = search_symbol_table(id);
+	
+	if(sym)
+		push_jump(sym->sl);
+	else
+		push_ident(id);
+	
+	return;
+}
 

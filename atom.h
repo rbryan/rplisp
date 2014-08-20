@@ -11,7 +11,8 @@ enum atom_type{
 	FLOAT, //Float type (actually a double but we don't care.)
 	STRING, //String type
 	CALL, //Call to a function.
-	REF //Reference to a function.
+	REF, //Reference to a function.
+	IDENT //Identifier (string)
 
 
 };
