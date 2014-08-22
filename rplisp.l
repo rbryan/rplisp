@@ -16,7 +16,7 @@
 
 [+-]?[0-9]*(\.)[0-9]+	{sscanf(yytext,"%lf",&yylval.doub); return float_val;}
 [+-]?[0-9]+		{sscanf(yytext,"%d",&yylval.integer); return int_val;}
-[a-zA-Z_]+[a-zA-Z0-9_]*	{	
+[a-zA-Z_\-\*\/\+]+[a-zA-Z0-9_]*	{	
 				yylval.id = malloc(yyleng+1);
 				if(yylval.id == NULL)
 					yyerror("Out of memory.");

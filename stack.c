@@ -189,7 +189,7 @@ void push_int(int n){
 	new = new_atom();
 
 	new->type = INT;
-	new->data.integer_t = n;
+	new->data.int_t = n;
 
 	v_push_atom(new);
 #ifdef DEBUG

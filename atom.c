@@ -17,6 +17,13 @@ struct atom *new_atom(){
 }
 
 void print_atom(struct atom *a){
+
+	int stack = 0;
+
+	if(a->type & STACK){
+		a->type = a->type ^ STACK;
+		stack = 1;
+	}
 	
 	printf("\tType:\t");
 
@@ -33,7 +40,7 @@ void print_atom(struct atom *a){
 				break;
 
 		case INT:	printf("INT\n");
-				printf("\tValue:\t%d\n", a->data.integer_t);
+				printf("\tValue:\t%d\n", a->data.int_t);
 				break;
 
 		case FLOAT:	printf("FLOAT\n");
@@ -61,10 +68,13 @@ void print_atom(struct atom *a){
 				
 
 		default:
-				error("Printing Stack: Unknonw atom type");
+				error("Printing Stack: Unknown atom type");
 	
 
 	}
+
+	if(stack)
+		a->type |= STACK;
 }
 
 
