@@ -3,17 +3,16 @@
 
 enum atom_type{
 
-	START = 1, //Start atom indicates beginning of expression.
-	TERM = 2, //Terminal atom indicates end of expression.
-	EXIT = 4, //Exit the current expression.
-	JUMP = 8, //Jump to another atom
-	INT = 16, //Integer type
-	FLOAT = 32, //Float type (actually a double but we don't care.)
-	STRING = 64, //String type
-	CALL = 128, //Call to a function.
-	REF = 256, //Reference to a function.
-	IDENT = 512, //Identifier (string)
-	STACK = 1024 //Identifies an atom as living only on the stack.
+	START, //Start atom indicates beginning of expression.
+	TERM, //Terminal atom indicates end of expression.
+	EXIT, //Exit the current expression.
+	JUMP, //Jump to another atom
+	INT, //Integer type
+	FLOAT, //Float type (actually a double but we don't care.)
+	STRING, //String type
+	CALL, //Call to a function.
+	REF, //Reference to a function.
+	IDENT //Identifier (string)
 
 
 };
@@ -34,5 +33,6 @@ struct atom {
 
 struct atom *new_atom();
 void print_atom(struct atom *a);
+struct atom * cp_atom( struct atom *a);
 
 #endif

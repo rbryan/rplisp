@@ -6,7 +6,7 @@
 #include "core.h"
 #include "error.h"
 
-void (*core_functions[])() = {def,print,add,NULL};
+void (*core_functions[])() = {_def,_print,_add,NULL};
 const char *fn_names[] = {"def","print","+",NULL};
 
 //todo
@@ -27,57 +27,52 @@ void push_core_functions(){
 	}
 }
 
-void print(){
+void _print(){
 	struct atom *a;
 
 	a = u_pop_atom();
 
 	print_atom(a);
 
-	//free the atom if it existed purely on the stack.
-	if(a->type & STACK)
-		free(a);
+	free(a);
 }
 
-void add(){
-	struct atom *a;
-	struct atom *b;
-	struct atom *new;
+void int_add(struct atom *a, struct atom *b){
+	
+	a->data.int_t = a->data.int_t + b->data.int_t;
+
+	u_push_atom(a);
+
+	free(b);
+
+}
+
+void float_add(struct atom *a, struct atom *b){
+	
+	a->data.float_t = a->data.float_t + b->data.float_t;
+
+	u_push_atom(a);
+
+	free(b);
+}
+
+void _add(){
+	struct atom *a, *b;
 
 	a = u_pop_atom();
 	b = u_pop_atom();
 
-	//Later improvement to reuse other
-	//variables that were created on the stack?
-	new = new_atom(); 
-
-	if(a->type & FLOAT || b->type & FLOAT){
-		new->type = FLOAT & STACK;
-	}else{
-		new->type = INT & STACK;
-	}
-
-	if(a->type & FLOAT){
-		if(b->type & FLOAT)
-			new->data.float_t =  a->data.float_t + b->data.float_t;
-		else
-			new->data.float_t = a->data.float_t + b->data.int_t;
-	}else{
-		if(b->type & FLOAT)
-			new->data.float_t = a->data.int_t + b->data.float_t;
-		else
-			new->data.int_t = a->data.int_t + b->data.int_t;
-	}
-
-	if(a->type & STACK)
-		free(a);
-	if(b->type & STACK)
-		free(b);
-
+	if(a->type != b->type)
+		error("Addition: Numbers need to be of the same type.");
 	
+	if(a->type == FLOAT)
+		float_add(a,b);
+	else
+		int_add(a,b);
+
 }
 
-void def(){
+void _def(){
 	struct symbol *sym;
 	struct atom *id;
 	struct atom *ref;
@@ -102,13 +97,7 @@ void def(){
 	else
 		push_symbol(ident,ref->data.jump_t);
 
-	//Free the atoms that were used if they live on
-	//the stack.
-	//I don't know that either of these are possible
-	//but we'll check anyway.
-	if(id->type & STACK)
-		free(id);
-	if(ref->type & STACK)
-		free(ref);
+	free(id);
+	free(ref);
 
 }

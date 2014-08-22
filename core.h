@@ -3,8 +3,8 @@
 
 
 void push_core_functions();
-void def();
-void print();
-void add();
+void _def();
+void _print();
+void _add();
 
 #endif

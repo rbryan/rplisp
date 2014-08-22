@@ -14,6 +14,18 @@ struct atom **exec_entry_pt;
 struct atom ** execute(struct atom **sp){
 	struct atom *current;
 
+	//Yes, I'm sorry okay. I alloc a new atom every time I push to
+	//the user stack.
+	//I know. It's terrible. It's inefficient. I hate myself for it.
+	//But it works, it's simple, and it makes it easy to deal with
+	//memory management because I know that everything that is on the
+	//stack lives there. If anyone ever decides that this is a cool
+	//project worth putting time into then a) they're foolish, and 
+	//b) they can put in the time to rework this so that it's more 
+	//efficient. 
+	//To whom it may concern. I wish you luck. 
+	// - R.E.B.
+
 	sp--; //we expect to be called on a start;
 
 	while(1){
@@ -27,19 +39,19 @@ struct atom ** execute(struct atom **sp){
 				(current->data.call_t)();
 				break;
 			case INT:
-				u_push_atom(current);
+				u_push_atom(cp_atom(current));
 				break;
 			case FLOAT:
-				u_push_atom(current);
+				u_push_atom(cp_atom(current));
 				break;
 			case STRING:
-				u_push_atom(current);
+				u_push_atom(cp_atom(current));
 				break;
 			case REF:
-				u_push_atom(current);
+				u_push_atom(cp_atom(current));
 				break;
 			case IDENT:
-				u_push_atom(current);
+				u_push_atom(cp_atom(current));
 				break;
 			case START:
 				// Start executing the function recursively.

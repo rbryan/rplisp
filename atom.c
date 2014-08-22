@@ -18,13 +18,6 @@ struct atom *new_atom(){
 
 void print_atom(struct atom *a){
 
-	int stack = 0;
-
-	if(a->type & STACK){
-		a->type = a->type ^ STACK;
-		stack = 1;
-	}
-	
 	printf("\tType:\t");
 
 	switch(a->type){
@@ -73,8 +66,18 @@ void print_atom(struct atom *a){
 
 	}
 
-	if(stack)
-		a->type |= STACK;
+}
+
+struct atom * cp_atom( struct atom *a){
+
+	struct atom *new;
+
+	new = new_atom();
+	
+	new->type = a->type;
+	new->data = a->data;
+
+	return new;
 }
 
 

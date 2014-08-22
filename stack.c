@@ -84,6 +84,7 @@ struct atom *v_pop_atom(){
 //User stack builds up from the bottom.
 
 void u_push_atom(struct atom *a){
+	
 	*usp = a;
 	usp++;
 	return;
