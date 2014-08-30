@@ -5,6 +5,7 @@
 void push_core_functions();
 
 //core functions
+void _gt();
 void _def();
 void _print();
 void _add();
