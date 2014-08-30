@@ -6,10 +6,9 @@
 #include "core.h"
 #include "error.h"
 
-void (*core_functions[])() = {_def,_print,_add,NULL};
-const char *fn_names[] = {"def","print","+",NULL};
+void (*core_functions[])() = {_def,_print,_add,_ifte,_dup,NULL};
+const char *fn_names[] = {"def","print","+","ifte","dup",NULL};
 
-//todo
 void push_core_functions(){
 	int i;
 	for(i=0; core_functions[i] != NULL; i++){
@@ -25,6 +24,53 @@ void push_core_functions(){
 		exec_entry_pt = vsp;
 
 	}
+}
+
+void _dup(){
+	struct atom *a;
+	struct atom *b;
+
+	a = u_pop_atom();
+
+	b = cp_atom(a);
+
+	u_push_atom(a);
+	u_push_atom(b);
+	
+}
+
+void _ifte(){
+	struct atom *i;
+	struct atom *t;
+	struct atom *e;
+	struct atom *r;
+
+	e = u_pop_atom();
+	t = u_pop_atom();
+	i = u_pop_atom();
+
+	if(i->type != REF)
+		error("IFTE: expects three ref arguments");
+	if(t->type != REF)
+		error("IFTE: expects three ref arguments");
+	if(e->type != REF)
+		error("IFTE: expects three ref arguments");
+
+	execute(i->data.jump_t);
+
+	r = u_pop_atom();
+
+
+	if(  r->data.vd != NULL)
+		execute(t->data.jump_t);
+	else
+		execute(e->data.jump_t);
+	
+
+	free(e);
+	free(t);
+	free(i);
+
 }
 
 void _print(){

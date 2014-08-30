@@ -28,6 +28,10 @@ struct atom {
 		char * string_t;
 		struct atom **jump_t;
 		void (*call_t)();
+
+		//apprantly I can't cast a union to a pointer
+		//type as per gcc so I made this instead.
+		void * vd; 
 	} data;
 };
 

@@ -15,7 +15,9 @@ int main(int argc, char **argv){
 	push_core_functions();
 	yyparse();
 	execute(exec_entry_pt);
+#ifdef DEBUG
 	print_stack();
+#endif
 	free_stack();
 	free_symbol_table();
 	return 0;

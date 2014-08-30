@@ -3,8 +3,12 @@
 
 
 void push_core_functions();
+
+//core functions
 void _def();
 void _print();
 void _add();
+void _ifte();
+void _dup();
 
 #endif

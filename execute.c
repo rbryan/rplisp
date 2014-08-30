@@ -4,6 +4,7 @@
 #include "execute.h"
 #include "atom.h"
 #include "stack.h"
+#include "symbols.h"
 
 
 //Entry point for execution.
@@ -13,6 +14,8 @@ struct atom **exec_entry_pt;
 
 struct atom ** execute(struct atom **sp){
 	struct atom *current;
+
+	struct symbol *sym; //used when an ident is encountered
 
 	//Yes, I'm sorry okay. I alloc a new atom every time I push to
 	//the user stack.
@@ -51,7 +54,15 @@ struct atom ** execute(struct atom **sp){
 				u_push_atom(cp_atom(current));
 				break;
 			case IDENT:
-				u_push_atom(cp_atom(current));
+
+
+				sym = search_symbol_table(current->data.string_t);
+
+				if(sym)
+					execute(sym->sl);
+				else	
+					u_push_atom(cp_atom(current));
+
 				break;
 			case START:
 				// Start executing the function recursively.
