@@ -6,8 +6,8 @@
 #include "core.h"
 #include "error.h"
 
-void (*core_functions[])() = {_def,_print,_add,_ifte,_dup,NULL};
-const char *fn_names[] = {"def","print","+","ifte","dup",NULL};
+void (*core_functions[])() = {_def,_print,_add,_ifte,_dup,_swp,NULL};
+const char *fn_names[] = {"def","print","+","ifte","dup","swp",NULL};
 
 void push_core_functions(){
 	int i;
@@ -37,6 +37,17 @@ void _dup(){
 	u_push_atom(a);
 	u_push_atom(b);
 	
+}
+
+void _swp(){
+	struct atom *a;
+	struct atom *b;
+
+	b = u_pop_atom();
+	a = u_pop_atom();
+
+	u_push_atom(b);
+	u_push_atom(a);
 }
 
 void _ifte(){

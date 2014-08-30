@@ -54,8 +54,6 @@ struct atom ** execute(struct atom **sp){
 				u_push_atom(cp_atom(current));
 				break;
 			case IDENT:
-
-
 				sym = search_symbol_table(current->data.string_t);
 
 				if(sym)

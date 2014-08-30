@@ -10,5 +10,7 @@ void _print();
 void _add();
 void _ifte();
 void _dup();
+void _swp();
+
 
 #endif
