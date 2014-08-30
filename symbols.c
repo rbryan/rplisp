@@ -42,7 +42,7 @@ void push_symbol(const char *id, struct atom **loc){
 	ssp->ident = id;
 	ssp->sl = loc;
 
-	if( (long) (ssp+1) - (long) (symbol_table) < symbol_table_size)
+	if( (unsigned long) (ssp+1) - (unsigned long) (symbol_table) < symbol_table_size * sizeof(struct symbol))
 		ssp++;
 	else
 		error("Pushing symbol: Symbol table overflow.");
