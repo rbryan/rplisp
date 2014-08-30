@@ -6,8 +6,8 @@
 #include "core.h"
 #include "error.h"
 
-void (*core_functions[])() = {_def,_print,_add,_ifte,_dup,NULL};
-const char *fn_names[] = {"def","print","+","ifte","dup",NULL};
+void (*core_functions[])() = {_def,_print,_add,_ifte,_dup,_gt,NULL};
+const char *fn_names[] = {"def","print","+","ifte","dup","gt",NULL};
 
 void push_core_functions(){
 	int i;
@@ -24,6 +24,42 @@ void push_core_functions(){
 		exec_entry_pt = vsp;
 
 	}
+}
+
+static void int_gt(struct atom *a, struct atom *b){
+	
+	a->data.int_t = a->data.int_t > b->data.int_t;
+
+	u_push_atom(a);
+
+	free(b);
+
+}
+
+static void float_gt(struct atom *a, struct atom *b){
+	
+	a->data.int_t = a->data.float_t > b->data.float_t;
+	a->type = INT;
+
+	u_push_atom(a);
+
+	free(b);
+}
+
+void _gt(){
+	struct atom *a, *b;
+
+	b = u_pop_atom();
+	a = u_pop_atom();
+
+	if(a->type != b->type)
+		error("Comparison: Numbers need to be of the same type.");
+	
+	if(a->type == FLOAT)
+		float_gt(a,b);
+	else
+		int_gt(a,b);
+
 }
 
 void _dup(){
@@ -83,7 +119,7 @@ void _print(){
 	free(a);
 }
 
-void int_add(struct atom *a, struct atom *b){
+static void int_add(struct atom *a, struct atom *b){
 	
 	a->data.int_t = a->data.int_t + b->data.int_t;
 
@@ -93,7 +129,7 @@ void int_add(struct atom *a, struct atom *b){
 
 }
 
-void float_add(struct atom *a, struct atom *b){
+static void float_add(struct atom *a, struct atom *b){
 	
 	a->data.float_t = a->data.float_t + b->data.float_t;
 
