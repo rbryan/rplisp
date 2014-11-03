@@ -94,6 +94,8 @@ void u_push_atom(struct atom *a){
 
 struct atom *u_pop_atom(){
 	struct atom *popped;
+	if(usp == stack)
+		error("Popping atom: stack empty.");
 	usp--;
 	popped = *usp;
 	*usp = NULL;
