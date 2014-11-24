@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "error.h"
 #include "atom.h"
+#include "stack.h"
 
 
 
@@ -29,7 +30,7 @@ void print_atom(struct atom *a){
 				break;
 				
 		case JUMP:	printf("JUMP\n");
-				printf("\tValue:\t%ld\n", (long) a->data.jump_t);
+				printf("\tValue:\t%ld\n", (long) a->data.jump_t - (long) stack);
 				break;
 
 		case INT:	printf("INT\n");
@@ -45,11 +46,11 @@ void print_atom(struct atom *a){
 				break;
 
 		case CALL:	printf("CALL\n");
-				printf("\tValue:\t%ld\n", (long) a->data.call_t);
+				printf("\tValue:\t%ld\n", (long) a->data.call_t - (long) stack);
 				break;
 
 		case REF:	printf("REF\n");
-				printf("\tValue:\t%ld\n", (long) a->data.jump_t);
+				printf("\tValue:\t%ld\n", (long) a->data.jump_t - (long) stack);
 				break;
 
 		case EXIT:	printf("EXIT\n");

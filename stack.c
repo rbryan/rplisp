@@ -5,6 +5,7 @@
 #include "symbols.h"
 #include "core.h"
 #include "atom.h"
+#include "stack.h"
 
 
 struct atom **stack;
