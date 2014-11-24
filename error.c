@@ -7,7 +7,7 @@ void warning(const char *s){
 }
 
 void error(const char *s){
-	print_stack();
+//	print_stack();
 	fprintf(stderr, "Error: %s\n",s);
 	exit(1);
 }

@@ -5,11 +5,16 @@
 void push_core_functions();
 
 //core functions
+
+void _lt();
 void _gt();
 void _eq();
 void _def();
 void _print();
 void _add();
+void _sub();
+void _mul();
+void _div();
 void _ifte();
 void _dup();
 void _cond_dup();

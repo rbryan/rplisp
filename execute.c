@@ -82,10 +82,15 @@ struct atom ** execute(struct atom **sp){
 
 	
 struct atom **find_terminal(struct atom **sp){
+	int last_close=1;
 	while(1){
-		if((*sp)->type == TERM)
+		if((*sp)->type == TERM && last_close )
 			return sp;
-		else
-			sp--;
+		else if((*sp)->type == START)
+			last_close ^= 1;
+		else if((*sp)->type == TERM)
+			last_close ^= 1;
+		
+		sp--;
 	}
 }

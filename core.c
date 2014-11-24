@@ -6,8 +6,8 @@
 #include "core.h"
 #include "error.h"
 
-void (*core_functions[])() = {_def,_print,_add,_ifte,_dup,_swap,_gt,_eq,_float,_int,_print_stack,_drop,_over,_dbg_print_stack,_cond_dup,_nip,_tuck,_rot,_inv_rot,_clear,NULL};
-const char *fn_names[] = {"def","print","+","ifte","dup","swap","gt","eq","float","int","print_stack","drop","over","debug","conddup","nip","tuck","rot","invrot","clear",NULL};
+void (*core_functions[])() = {_def,_print,_add,_sub,_mul,_div,_ifte,_dup,_swap,_lt,_gt,_eq,_float,_int,_print_stack,_drop,_over,_dbg_print_stack,_cond_dup,_nip,_tuck,_rot,_inv_rot,_clear,NULL};
+const char *fn_names[] = {"def","print","+","-","*","/","ifte","dup","swap","lt","gt","eq","float","int","print_stack","drop","over","debug","conddup","nip","tuck","rot","invrot","clear",NULL};
 
 void push_core_functions(){
 	int i;
@@ -38,8 +38,10 @@ void _tuck(){
 
 void _print_stack(){
 	struct atom ** i;
-	for(i=usp-1; i >= stack; i--)
+	for(i=usp-1; i >= stack; i--){
+		print_atom_type(*i);
 		print_atom(*i);
+	}
 }
 
 void _dbg_print_stack(){
@@ -135,7 +137,7 @@ void _gt(){
 
 	b = u_pop_atom();
 	a = u_pop_atom();
-
+		
 	if(a->type != b->type)
 		error("Comparison: Numbers need to be of the same type.");
 	
@@ -146,6 +148,10 @@ void _gt(){
 
 }
 
+void _lt(){
+	_swap();
+	_gt();
+}
 void _dup(){
 	struct atom *a;
 	struct atom *b;
@@ -290,9 +296,28 @@ static void int_add(struct atom *a, struct atom *b){
 
 }
 
+static void int_mul(struct atom *a, struct atom *b){
+	
+	a->data.int_t = a->data.int_t * b->data.int_t;
+
+	u_push_atom(a);
+
+	free(b);
+
+}
+
 static void float_add(struct atom *a, struct atom *b){
 	
 	a->data.float_t = a->data.float_t + b->data.float_t;
+
+	u_push_atom(a);
+
+	free(b);
+}
+
+static void float_mul(struct atom *a, struct atom *b){
+	
+	a->data.float_t = a->data.float_t * b->data.float_t;
 
 	u_push_atom(a);
 
@@ -312,6 +337,59 @@ void _add(){
 		float_add(a,b);
 	else
 		int_add(a,b);
+
+}
+
+void _mul(){
+	struct atom *a, *b;
+
+	a = u_pop_atom();
+	b = u_pop_atom();
+
+	if(a->type != b->type)
+		error("Addition: Numbers need to be of the same type.");
+	
+	if(a->type == FLOAT)
+		float_mul(a,b);
+	else
+		int_mul(a,b);
+
+}
+void _sub(){
+	struct atom *a, *b;
+
+	a = u_pop_atom();
+	b = u_pop_atom();
+
+	if(a->type != b->type)
+		error("Subtraction: Numbers need to be of the same type.");
+	
+	if(a->type == FLOAT){
+		a->data.float_t *= -1;
+		float_add(a,b);
+	}else{
+		a->data.int_t *= -1;
+		int_add(a,b);
+	}
+
+}
+
+void _div(){
+	struct atom *a, *b;
+
+	a = u_pop_atom();
+	b = u_pop_atom();
+
+	if(a->type != b->type)
+		error("Subtraction: Numbers need to be of the same type.");
+	
+	if(a->type == FLOAT){
+		a->data.float_t /= 1;
+		float_mul(a,b);
+	}else{
+		a->data.int_t /= 1;
+		int_mul(a,b);
+	}
 
 }
 

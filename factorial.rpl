@@ -1,0 +1,13 @@
+(	
+	( << 1 swap fact-work >> fact def )
+
+	( << 	
+		<< dup 2 gt >>
+		<< dup 1 - fact-work * >>
+		<< * >>
+		ifte
+	>> 
+	fact-work def )
+
+	10 fact print 
+)

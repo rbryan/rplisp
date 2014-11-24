@@ -17,7 +17,7 @@ struct atom *new_atom(){
 	
 }
 
-void print_atom(struct atom *a){
+void print_atom_type(struct atom *a){
 
 	printf("\tType:\t");
 
@@ -30,39 +30,82 @@ void print_atom(struct atom *a){
 				break;
 				
 		case JUMP:	printf("JUMP\n");
-				printf("\tValue:\t%ld\n", (long) a->data.jump_t - (long) stack);
 				break;
 
 		case INT:	printf("INT\n");
-				printf("\tValue:\t%d\n", a->data.int_t);
 				break;
 
 		case FLOAT:	printf("FLOAT\n");
-				printf("\tValue:\t%f\n", a->data.float_t);
 				break;
 
 		case STRING:	printf("STRING\n");
-				printf("\tValue:\t\"%s\"\n", a->data.string_t);
 				break;
 
 		case CALL:	printf("CALL\n");
-				printf("\tValue:\t%ld\n", (long) a->data.call_t - (long) stack);
 				break;
 
 		case REF:	printf("REF\n");
-				printf("\tValue:\t%ld\n", (long) a->data.jump_t - (long) stack);
 				break;
 
 		case EXIT:	printf("EXIT\n");
 				break;
 
 		case IDENT:	printf("IDENT\n");
-				printf("\tValue:\t%s\n", a->data.string_t);
 				break;
 				
 
 		default:
-				error("Printing Stack: Unknown atom type");
+				error("Printing Atom Type: Unknown atom type");
+	
+
+	}
+
+}
+
+void print_atom(struct atom *a){
+
+	switch(a->type){
+		
+		case START:	
+				break;
+		
+		case TERM:
+				break;
+				
+		case JUMP:
+				printf("%ld\n", (long) a->data.jump_t - (long) stack);
+				break;
+
+		case INT:
+				printf("%d\n", a->data.int_t);
+				break;
+
+		case FLOAT:
+				printf("%f\n", a->data.float_t);
+				break;
+
+		case STRING:
+				printf("%s\n", a->data.string_t);
+				break;
+
+		case CALL:	
+				printf("%ld\n", (long) a->data.call_t - (long) stack);
+				break;
+
+		case REF:
+				printf("%ld\n", (long) a->data.jump_t - (long) stack);
+				break;
+
+		case EXIT:
+				break;
+
+		case IDENT:
+				printf("%s\n", a->data.string_t);
+				break;
+				
+
+		default:
+				error("Pretty Printing Atom: Unknown atom type");
 	
 
 	}

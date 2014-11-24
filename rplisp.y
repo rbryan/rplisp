@@ -14,7 +14,7 @@
 
 	extern int yylex();
 
-	int noerror=1;
+	//int noerror=1;
 
 	void handle_quote_start();
 	void handle_ident(char *id);

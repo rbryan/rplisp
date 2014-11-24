@@ -38,5 +38,5 @@ struct atom {
 struct atom *new_atom();
 void print_atom(struct atom *a);
 struct atom * cp_atom( struct atom *a);
-
+void print_atom_type(struct atom *);
 #endif

@@ -38,6 +38,7 @@ void print_stack(){
 	for(i=stack_size-1; &stack[i] != vsp; i--){
 		printf("-----\n");
 		printf("%d",i);
+		print_atom_type(stack[i]);
 		print_atom(stack[i]);
 	}
 
@@ -68,6 +69,8 @@ void free_stack(){
 void v_push_atom(struct atom *a){
 	*vsp = a;
 	vsp--;
+	if(vsp == usp)
+		error("v_push_atom: stack collision!");
 	return;
 }
 
@@ -88,6 +91,8 @@ void u_push_atom(struct atom *a){
 	
 	*usp = a;
 	usp++;
+	if(vsp == usp)
+		error("u_push_atom: stack collision!");
 	return;
 }
 
